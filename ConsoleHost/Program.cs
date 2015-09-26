@@ -1,28 +1,21 @@
 ﻿using System;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
 using IdentityModel.Client;
-using IdentityModel.Extensions;
 using Microsoft.Owin.Hosting;
-using Newtonsoft.Json.Linq;
 
-namespace ConsoleApplication1
+namespace ConsoleHost
 {
     class Program
     {
         static void Main(string[] args)
         {
-            string baseAddress = "http://localhost:9000/";
+            string baseAddress = "http://localhost:8080/";
 
             // Start OWIN host 
             using (WebApp.Start<Startup>(url: baseAddress))
             {
                 // Create HttpCient and make a request to api/values 
                 //HttpClient client = new HttpClient();
-                var tokenResponse = RequestToken();
+                //var tokenResponse = RequestToken();
                 //client.SetBearerToken(tokenResponse.AccessToken);
                 //StringContent theContent = new StringContent("{'name':'hello world'}", System.Text.Encoding.UTF8, "application/json");
                 //var response = client.PostAsync(baseAddress + "wishlist/api/ownerslist", theContent).Result;

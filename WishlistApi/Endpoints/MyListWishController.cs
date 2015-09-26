@@ -6,6 +6,7 @@ using Owin;
 using WishlistApi.Infrastructure;
 using WishlistApi.Model;
 using WishlistApi.Model.DataAccess;
+using WishlistApi.Model.Domain;
 using WishlistApi.Model.DTO;
 using WishlistApi.Model.DTO.MyListWish;
 
@@ -15,7 +16,7 @@ namespace WishlistApi.Endpoints
     [InheritedRoute("api/MyList/{listId}/Wish/{id?}")]
     public class MyListWishController : ApiController
     {
-        private readonly IRepository<List> _repository;
+        private readonly IRepository<WishList> _repository;
         private readonly ResourceUriHelper _resourceUriHelper;
         private readonly DTOMapper _dtoMapper;
         private readonly IUserIdProvider _userIdProvider;
@@ -25,7 +26,7 @@ namespace WishlistApi.Endpoints
         {
             var client = new MongoClient();
 
-            _repository = new MongoRepository<List>("List", client.GetDatabase("wishlist"));
+            _repository = new MongoRepository<WishList>("List", client.GetDatabase("wishlist"));
             _resourceUriHelper = new ResourceUriHelper(this);
             _dtoMapper = new DTOMapper();
             _userIdProvider = new FakeUserIdProvider();

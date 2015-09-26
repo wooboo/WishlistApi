@@ -93,20 +93,21 @@
     <Compile Include="Configuration\WishlistApiAppBuilderExtensions.cs" />
     <Compile Include="Configuration\WishlistApiOptions.cs" />
     <Compile Include="Endpoints\MyListController.cs" />
-    <Compile Include="Model\DTO\MyListWish\CreateMyListDTO.cs" />
-    <Compile Include="Model\DTO\MyListWish\GetMyListDTO.cs" />
-    <Compile Include="Model\DTO\MyListWish\MyListDTO.cs" />
-    <Compile Include="Model\DTO\MyListWish\QueryMyListDTO.cs" />
-    <Compile Include="Model\DTO\MyListWish\UpdateMyListDTO.cs" />
+    <Compile Include="Model\Domain\EntityBase.cs" />
+    <Compile Include="Model\DTO\MyListWish\CreateMyListWishDTO.cs" />
+    <Compile Include="Model\DTO\MyListWish\GetMyListWishDTO.cs" />
+    <Compile Include="Model\DTO\MyListWish\MyListWishDTO.cs" />
+    <Compile Include="Model\DTO\MyListWish\QueryMyListWishDTO.cs" />
+    <Compile Include="Model\DTO\MyListWish\UpdateMyListWishDTO.cs" />
     <Compile Include="Model\DTO\MyList\CreateMyListDTO.cs" />
     <Compile Include="Model\DTO\MyList\GetMyListDTO.cs" />
     <Compile Include="Model\DTO\MyList\MyListDTO.cs" />
     <Compile Include="Model\DataAccess\IRepository.cs" />
     <Compile Include="Model\DTO\MyList\QueryMyListDTO.cs" />
     <Compile Include="Model\DTO\MyList\UpdateMyListDTO.cs" />
-    <Compile Include="Model\List.cs" />
-    <Compile Include="Model\ListInvitations.cs" />
-    <Compile Include="Model\Wish.cs" />
+    <Compile Include="Model\Domain\WishList.cs" />
+    <Compile Include="Model\Domain\ListInvitations.cs" />
+    <Compile Include="Model\Domain\Wish.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
