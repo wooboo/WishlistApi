@@ -44,7 +44,7 @@ namespace WebHost
 
                             var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
                             var commentsFileName = typeof(WishlistApiOptions).Assembly.GetName().Name + ".XML";
-                            var commentsFile = Path.Combine(baseDirectory, commentsFileName);
+                            var commentsFile = Path.Combine(baseDirectory, "bin", commentsFileName);
 
                             c.IncludeXmlComments(commentsFile);
                         })

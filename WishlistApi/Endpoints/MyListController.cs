@@ -91,7 +91,6 @@ namespace WishlistApi.Endpoints
 
         public async Task<IHttpActionResult> Get(string id)
         {
-            var username = _userIdProvider.GetUserId();
             var item = await _repository.GetAsync(id);
             if (!item.Owners.Contains(_userIdProvider.GetUserId()))
             {
