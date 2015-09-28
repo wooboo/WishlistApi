@@ -13,7 +13,7 @@ using WishlistApi.Model.DTO.MyListWish;
 namespace WishlistApi.Endpoints
 {
     //[Authorize]
-    [InheritedRoute("api/MyList/{listId}/Wish/{name?}")]
+    [InheritedRoute("api/MyList/{listId}/Wish/{wishId?}")]
     public class MyListWishController : ApiController
     {
         private readonly IRepository<WishList> _repository;
@@ -41,20 +41,20 @@ namespace WishlistApi.Endpoints
             await _repository.UpdateAsync(listId, list);
             return Ok();
         }
-        public async Task<IHttpActionResult> Put(string listId, string name, UpdateMyListWishDTO myListWishDTO)
+        public async Task<IHttpActionResult> Put(string listId, string wishId, UpdateMyListWishDTO myListWishDTO)
         {
             var list = await _repository.GetAsync(listId);
-            var wish = list.Wishes.Single(o => o.Id == name);
+            var wish = list.Wishes.Single(o => o.Id == wishId);
             _dtoMapper.Map(myListWishDTO).To<Wish>(wish);
-            await _repository.UpdateAsync(name, list);
+            await _repository.UpdateAsync(wishId, list);
             return Ok();
         }
-        public async Task<IHttpActionResult> Delete(string listId, string name)
+        public async Task<IHttpActionResult> Delete(string listId, string wishId)
         {
             var list = await _repository.GetAsync(listId);
-            var wish = list.Wishes.Single(o => o.Id == name);
+            var wish = list.Wishes.Single(o => o.Id == wishId);
             list.Wishes.Remove(wish);
-            await _repository.UpdateAsync(name, list);
+            await _repository.UpdateAsync(wishId, list);
             return Ok();
         }
         public async Task<IHttpActionResult> Get(string listId)
@@ -63,21 +63,21 @@ namespace WishlistApi.Endpoints
 
             var listDtos = list.Wishes.Select(item => _dtoMapper.Map(item).To<QueryMyListWishDTO>((s, d) =>
             {
-                d.Uri = _resourceUriHelper.GetResourceUri<MyListWishController>(new { listId = listId, name = s.Id });
+                d.Uri = _resourceUriHelper.GetResourceUri<MyListWishController>(new { listId = listId, wishId = s.Id });
                 d.ListUri = _resourceUriHelper.GetResourceUri<MyListController>(new { id = listId });
             })).ToList();
             return Ok(listDtos);
         }
 
 
-        public async Task<IHttpActionResult> Get(string listId, string name)
+        public async Task<IHttpActionResult> Get(string listId, string wishId)
         {
             var list = await _repository.GetAsync(listId);
-            var wish = list.Wishes.Single(o => o.Id == name);
-            await _repository.UpdateAsync(name, list);
+            var wish = list.Wishes.Single(o => o.Id == wishId);
+            await _repository.UpdateAsync(wishId, list);
             return Ok(_dtoMapper.Map(wish).To<GetMyListWishDTO>((s, d) =>
             {
-                d.Uri = _resourceUriHelper.GetResourceUri<MyListWishController>(new { listId = listId, name = s.Id });
+                d.Uri = _resourceUriHelper.GetResourceUri<MyListWishController>(new { listId = listId, wishId = s.Id });
                 d.ListUri = _resourceUriHelper.GetResourceUri<MyListController>(new { id = listId });
             }));
         }

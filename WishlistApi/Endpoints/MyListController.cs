@@ -83,8 +83,8 @@ namespace WishlistApi.Endpoints
 
             var listDtos = result.Select(item => _dtoMapper.Map(item).To<QueryMyListDTO>((s, d) =>
             {
-                d.Uri = _resourceUriHelper.GetResourceUri<MyListController>(new {id = s.Id});
-                d.WishesUri = _resourceUriHelper.GetResourceUri<MyListWishController>(new {listId = s.Id});
+                d.Uri = _resourceUriHelper.GetResourceUri<MyListController>(new { id = s.Id });
+                d.WishesUri = _resourceUriHelper.GetResourceUri<MyListWishController>(new { listId = s.Id });
             })).ToList();
             return Ok(listDtos);
         }
@@ -104,6 +104,6 @@ namespace WishlistApi.Endpoints
             return Ok(listDTO);
         }
 
-       
+
     }
 }
