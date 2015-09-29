@@ -5,7 +5,7 @@ namespace WishlistApi.Model.Domain
     /// <summary>
     /// Wish
     /// </summary>
-    public class Wish: ComplexType
+    public class Wish: ComplexType, IIdentified
     {
         /// <summary>
         /// Identifier of a wish

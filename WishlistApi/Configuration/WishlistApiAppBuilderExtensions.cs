@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
@@ -17,30 +16,10 @@ namespace Owin
     {
         public static IAppBuilder UseWishlistApi(this IAppBuilder app, WishlistApiOptions options)
         {
-            app.UseWebApi(WebApiConfig.Configure(options));
+            var config = app.ConfigureContainer(new HttpConfiguration());
+
+            app.UseWebApi(WebApiConfig.Configure(config, options));
             return app;
-        }
-    }
-    public class WebApiConfig
-    {
-        public static HttpConfiguration Configure(WishlistApiOptions options)
-        {
-            if (options == null) throw new ArgumentNullException(nameof(options));
-
-            var config = new HttpConfiguration();
-            options.Configure?.Invoke(config);
-            config.MapHttpAttributeRoutes(new InheritedDirectRouteProvider());
-            //config.Routes.MapHttpRoute(
-            //     name: "DefaultApi",
-            //     routeTemplate: "api/{controller}/{id}",
-            //     defaults: new { id = RouteParameter.Optional }
-            //);
-            //config.MapRestControllerRouting(typeof(MyListController));
-            //config.MapRestControllerRouting(typeof(MyListWishController));
-            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
-                new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
-
-            return config;
         }
     }
 

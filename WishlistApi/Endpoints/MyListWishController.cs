@@ -17,26 +17,23 @@ namespace WishlistApi.Endpoints
     public class MyListWishController : ApiController
     {
         private readonly IRepository<WishList> _repository;
-        private readonly ResourceUriHelper _resourceUriHelper;
+        private readonly IIdGenerator<Wish> _idGenerator;
         private readonly DTOMapper _dtoMapper;
         private readonly IUserIdProvider _userIdProvider;
-        private readonly SlugGenerator _slugGenerator;
 
-        public MyListWishController()
+        public MyListWishController(DTOMapper dtoMapper, IUserIdProvider userIdProvider, 
+            IRepository<WishList> repository, IIdGenerator<Wish> idGenerator )
         {
-            var client = new MongoClient();
-
-            _repository = new MongoRepository<WishList>("List", client.GetDatabase("wishlist"));
-            _resourceUriHelper = new ResourceUriHelper(this);
-            _dtoMapper = new DTOMapper();
-            _userIdProvider = new FakeUserIdProvider();
-            _slugGenerator = new SlugGenerator();
+            _dtoMapper = dtoMapper;
+            _userIdProvider = userIdProvider;
+            _repository = repository;
+            _idGenerator = idGenerator;
         }
         public async Task<IHttpActionResult> Post(string listId, CreateMyListWishDTO myListWishDTO)
         {
             var list = await _repository.GetAsync(listId);
             var wish = _dtoMapper.Map(myListWishDTO).To<Wish>();
-            wish.Id = _slugGenerator.ToUrlSlug(myListWishDTO.Name);
+            _idGenerator.GenerateId(wish);
             list.Wishes.Add(wish);
             await _repository.UpdateAsync(listId, list);
             return Ok();
@@ -63,8 +60,8 @@ namespace WishlistApi.Endpoints
 
             var listDtos = list.Wishes.Select(item => _dtoMapper.Map(item).To<QueryMyListWishDTO>((s, d) =>
             {
-                d.Uri = _resourceUriHelper.GetResourceUri<MyListWishController>(new { listId = listId, wishId = s.Id });
-                d.ListUri = _resourceUriHelper.GetResourceUri<MyListController>(new { id = listId });
+                d.Uri = Url.GetResourceUri<MyListWishController>(new { listId = listId, wishId = s.Id });
+                d.ListUri = Url.GetResourceUri<MyListController>(new { id = listId });
             })).ToList();
             return Ok(listDtos);
         }
@@ -77,8 +74,8 @@ namespace WishlistApi.Endpoints
             await _repository.UpdateAsync(wishId, list);
             return Ok(_dtoMapper.Map(wish).To<GetMyListWishDTO>((s, d) =>
             {
-                d.Uri = _resourceUriHelper.GetResourceUri<MyListWishController>(new { listId = listId, wishId = s.Id });
-                d.ListUri = _resourceUriHelper.GetResourceUri<MyListController>(new { id = listId });
+                d.Uri = Url.GetResourceUri<MyListWishController>(new { listId = listId, wishId = s.Id });
+                d.ListUri = Url.GetResourceUri<MyListController>(new { id = listId });
             }));
         }
 

@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
 
 namespace WishlistApi.Model.Domain
 {
     /// <summary>
     /// Base entity
     /// </summary>
-    public class EntityBase: ComplexType
+    public class EntityBase: ComplexType, IIdentified
     {
         /// <summary>
         /// document unique identifier
@@ -14,16 +13,5 @@ namespace WishlistApi.Model.Domain
         [BsonId]
         public string Id { get; set; }
 
-    }
-
-    /// <summary>
-    /// Base complex type
-    /// </summary>
-    public class ComplexType
-    {
-        /// <summary>
-        /// All extra elements from store that are not in model
-        /// </summary>
-        public IDictionary<string, object> ExtraElements { get; set; } 
     }
 }
